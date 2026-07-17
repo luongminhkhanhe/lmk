@@ -1,0 +1,45 @@
+LMK LINUX BUILDER FOR WINDOWS
+=============================
+
+Bộ này chạy trên Windows, không yêu cầu cài Ubuntu hoặc WSL.
+Windows chỉ làm giao diện và chuẩn bị dự án. Việc biên dịch kernel/rootfs
+được thực hiện bởi máy Linux của GitHub Actions.
+
+CẦN CÓ
+------
+- Tài khoản GitHub.
+- Trình duyệt.
+- Không cần Git, Docker, Ubuntu hoặc WSL.
+
+CÁCH CHẠY
+---------
+1. Bấm đúp RUN_LMK_BUILDER.bat.
+2. Bấm "KIỂM TRA BỘ FILE".
+3. Bấm "MỞ GITHUB".
+4. Tạo repository mới:
+   - Repository name: LMK-Linux-RK3229
+   - Chọn Private hoặc Public đều được.
+5. Trong repository, bấm:
+   Add file > Upload files
+6. Kéo toàn bộ nội dung trong thư mục Builder lên GitHub.
+   Phải giữ nguyên thư mục:
+   .github/workflows/build.yml
+7. Bấm Commit changes.
+8. Mở tab Actions.
+9. Chọn "Build LMK Linux RK3229".
+10. Bấm Run workflow.
+11. Chọn:
+    - release: bookworm
+    - branch: legacy
+12. Bấm Run workflow và chờ build.
+13. Khi hoàn tất, mở lần chạy đó.
+14. Trong phần Artifacts, tải:
+    LMK-RK3229-bookworm-legacy
+15. Giải nén artifact và gửi lại file ZIP/kết quả để kiểm tra.
+
+CẢNH BÁO
+--------
+- Chưa flash file image tạo ra.
+- Đây là build thử nghiệm.
+- Box dùng raw NAND, không được xử lý giống eMMC.
+- Cần kiểm tra loader, layout và steP-nand trước khi flash.
