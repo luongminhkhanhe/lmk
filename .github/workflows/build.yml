@@ -14,11 +14,11 @@ on:
       branch:
         description: Kernel branch
         required: true
-        default: legacy
+        default: current
         type: choice
         options:
-          - legacy
           - current
+          - edge
 
 jobs:
   build:
