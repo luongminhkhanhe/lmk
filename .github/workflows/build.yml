@@ -1,0 +1,54 @@
+name: Build LMK Linux RK3229
+
+on:
+  workflow_dispatch:
+    inputs:
+      release:
+        description: Debian release
+        required: true
+        default: bookworm
+        type: choice
+        options:
+          - bookworm
+          - bullseye
+      branch:
+        description: Kernel branch
+        required: true
+        default: legacy
+        type: choice
+        options:
+          - legacy
+          - current
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 360
+
+    steps:
+      - name: Checkout Builder
+        uses: actions/checkout@v4
+
+      - name: Show board files
+        run: |
+          sha256sum board/*
+          file board/*
+
+      - name: Run build
+        env:
+          RELEASE: ${{ inputs.release }}
+          BRANCH: ${{ inputs.branch }}
+        run: |
+          chmod +x scripts/cloud-build.sh
+          ./scripts/cloud-build.sh
+
+      - name: Upload build logs and images
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: LMK-RK3229-${{ inputs.release }}-${{ inputs.branch }}
+          path: |
+            output/**
+            build/output/images/**
+          if-no-files-found: warn
+          retention-days: 7
